@@ -24,10 +24,17 @@ export default new Promise(async (resolve) => {
     tinymce.PluginManager.add(`${component}/plugin`, (editor) => {
         Options.register(editor);
 
+        const pumukitIcon = `
+            <svg width="24" height="24" viewBox="0 0 24 24">
+                <path d="M4 3h16c.6 0 1 .4 1 1v16c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1V4c0-.6.4-1 1-1Zm1 2v14h14V5H5Zm4.8 2.6 5.6 4a.5.5 0 0 1 0 .8l-5.6 4A.5.5 0 0 1 9 16V8a.5.5 0 0 1 .8-.4Z" fill="red"></path>
+            </svg>
+        `;
+
+        editor.ui.registry.addIcon('pumukit', pumukitIcon);
+
         editor.ui.registry.addButton(pluginButtonName, {
-            icon: 'embed',
+            icon: 'pumukit',
             tooltip: Options.getDialogTitle(editor) || 'Insert PuMuKIT Media',
-            classes: 'pumukitmedia-button',
             onAction: () => {
                 openPumukitDialogue(editor);
             }
@@ -35,7 +42,7 @@ export default new Promise(async (resolve) => {
 
         editor.ui.registry.addMenuItem(pluginButtonName, {
             text: 'Pumukit Media',
-            icon: 'embed',
+            icon: 'pumukit',
             classes: 'pumukitmedia-button',
             onAction: () => {
                 openPumukitDialogue(editor);

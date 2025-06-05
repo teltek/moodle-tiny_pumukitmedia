@@ -47,5 +47,14 @@ export default [
       sourcemap: true,
     },
     plugins: [resolve(), commonjs(), terser()],
+  },
+  {
+    input: 'amd/src/modal.js',
+    output: {
+      file: 'amd/build/modal.min.js',
+      format: 'amd',
+      sourcemap: true,
+    },
+    plugins: [resolve(), commonjs(), terser()],
   }
 ];

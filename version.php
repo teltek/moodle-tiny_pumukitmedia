@@ -18,3 +18,4 @@ $plugin->dependencies = [
     'filter_pumukitmedia' => 2022021801
 ];
 $plugin->release = '1.0.0';
+$plugin->stylesheets = ['styles'];
