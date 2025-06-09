@@ -34,14 +34,23 @@ export const openPumukitDialogue = async (editor) => {
 
         modal.show();
 
-        modal.getRoot().one('shown.bs.modal', () => {
-            const root = modal.getRoot();
-            root.find('.nav-tabs a').on('click', function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
+        modal.getRoot().on('click', '.nav-tabs .nav-link', function(e) {
+            e.preventDefault();
+
+            const $link = $(this);
+            const $tabPane = modal.getRoot().find($link.attr('href'));
+
+            // Desactivar todos los tabs y panes
+            modal.getRoot().find('.nav-tabs .nav-link').removeClass('active');
+            modal.getRoot().find('.tab-pane').removeClass('show active');
+
+            // Activar el seleccionado
+            $link.addClass('active');
+            $tabPane.addClass('show active');
         });
 
+
+        // Escuchar mensajes desde los iframes
         const receiveMessage = (event) => {
             const data = event.data;
             if (!data || (!data.mmId && !data.url && !data.playlist)) return;
@@ -79,6 +88,7 @@ export const openPumukitDialogue = async (editor) => {
         modal.getRoot().on('hidden.bs.modal', () => {
             window.removeEventListener('message', receiveMessage);
         });
+
     } catch (error) {
         console.error('Error creando la modal de PuMuKIT:', error);
     }
