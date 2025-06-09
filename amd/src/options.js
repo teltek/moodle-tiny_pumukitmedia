@@ -38,7 +38,10 @@ export const register = (editor) => {
 };
 
 // Funciones de ayuda
-export const getPumukitUrl = (editor) => editor.options.get(urlOption);
+export const getPumukitUrl = (editor) => {
+    const value = editor.options.get(urlOption);
+    return typeof value === 'string' ? value.trim() : '';
+};
 export const getDialogTitle = (editor) => editor.options.get(titleOption);
 export const getUsername = (editor) => editor.options.get(usernameOption);
 export const getEmail = (editor) => editor.options.get(emailOption);
