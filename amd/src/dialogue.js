@@ -37,16 +37,20 @@ export const openPumukitDialogue = async (editor) => {
         modal.getRoot().on('click', '.nav-tabs .nav-link', function(e) {
             e.preventDefault();
 
-            const $link = $(this);
-            const $tabPane = modal.getRoot().find($link.attr('href'));
+            const root = modal.getRoot()[0];
+            const clickedLink = e.target;
+            const targetId = clickedLink.getAttribute('href');
 
-            // Desactivar todos los tabs y panes
-            modal.getRoot().find('.nav-tabs .nav-link').removeClass('active');
-            modal.getRoot().find('.tab-pane').removeClass('show active');
+            root.querySelectorAll(".nav-tabs .nav-link").forEach(link => {
+                link.classList.remove("active");
+            });
 
-            // Activar el seleccionado
-            $link.addClass('active');
-            $tabPane.addClass('show active');
+            root.querySelectorAll(".tab-pane").forEach(pane => {
+                pane.classList.remove("show", "active");
+            });
+
+            clickedLink.classList.add("active");
+            root.querySelector(targetId).classList.add("show", "active");
         });
 
 
