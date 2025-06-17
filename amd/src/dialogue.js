@@ -7,6 +7,9 @@ import {
     getHash,
     getUsername,
     getEmail,
+    getShowPr,
+    getShowPlaylist,
+    getShowSharedVideos
 } from './options';
 
 export const openPumukitDialogue = async (editor) => {
@@ -16,6 +19,9 @@ export const openPumukitDialogue = async (editor) => {
     const username = getUsername(editor);
     const email = getEmail(editor);
     const lang = document.documentElement.lang || 'en';
+    const showpr = getShowPr(editor);
+    const showplaylist =  getShowPlaylist(editor);
+    const showsharedvideos = getShowSharedVideos(editor);
 
     const context = {
         modaltitle,
@@ -23,7 +29,10 @@ export const openPumukitDialogue = async (editor) => {
         hash,
         username,
         email,
-        lang
+        lang,
+        showpr,
+        showplaylist,
+        showsharedvideos
     };
 
     try {
@@ -68,19 +77,20 @@ export const openPumukitDialogue = async (editor) => {
                 embedUrl = `${pumukitUrl}/openedx/openedx/embed/${data.mmId}`;
             }
 
-            const embedHtml = `
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe 
-                        class="embed-responsive-item" 
-                        src="${embedUrl}" 
-                        width="100%" 
-                        height="400" 
-                        frameborder="0" 
-                        allowfullscreen 
-                        allow="microphone; camera; display-capture">
-                    </iframe>
-                </div>
-            `;
+            // const embedHtml = `
+            //     <div class="embed-responsive embed-responsive-16by9">
+            //         <iframe 
+            //             class="embed-responsive-item" 
+            //             src="${embedUrl}" 
+            //             width="100%" 
+            //             height="400" 
+            //             frameborder="0" 
+            //             allowfullscreen 
+            //             allow="microphone; camera; display-capture">
+            //         </iframe>
+            //     </div>
+            // `;
+            const embedHtml = `<a href="${embedUrl}" target="_blank" class="pumukit-media-link">${embedUrl}</a>`;
 
             editor.insertContent(embedHtml);
             modal.hide();

@@ -61,6 +61,9 @@ class plugininfo extends plugin implements plugin_with_configuration {
         $date = date('d/m/Y');
         $domain = parse_url($pumukiturl, PHP_URL_HOST);
         $hash = md5($USER->username . $password . $date . $domain);
+        $showpr = (bool)get_config('tiny_pumukitmedia', 'showpr');
+        $showplaylist = (bool)get_config('tiny_pumukitmedia', 'showplaylist');
+        $showsharedvideos = (bool)get_config('tiny_pumukitmedia', 'showsharedvideos');
 
         return [
             'pumukitmediaurl' => $pumukiturl,
@@ -70,6 +73,9 @@ class plugininfo extends plugin implements plugin_with_configuration {
             'username' => $USER->username,
             'email' => $USER->email,
             'date' => $date,
+            'showpr' => $showpr,
+            'showplaylist' => $showplaylist,
+            'showsharedvideos' => $showsharedvideos
         ];
     }
 }

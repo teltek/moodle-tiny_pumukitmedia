@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template tiny_pumukitmedia/mdoal
+    @template tiny_pumukitmedia/modal
 
     Pumukit modal template.
 }}
@@ -27,24 +27,41 @@
 
     {{$body}}
         <ul class="nav nav-tabs" role="tablist" style="margin-bottom:10px;">
-            <li class="nav-item"><a class="nav-link active" href="#manager" role="tab" aria-selected="false">Mis vídeos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#recorder" role="tab" aria-selected="false">Grabador</a></li>
-            <li class="nav-item"><a class="nav-link" href="#playlist" role="tab" aria-selected="false">Playlist</a></li>
-            <li class="nav-item"><a class="nav-link" href="#shared" role="tab" aria-selected="false">Compartidos</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#upload" role="tab" aria-selected="false">Subir</a></li>
+            <li class="nav-item"><a class="nav-link" href="#manager" role="tab" aria-selected="false">Mis vídeos</a></li>
+            {{#showpr}}
+                <li class="nav-item"><a class="nav-link" href="#recorder" role="tab" aria-selected="false">Grabador</a></li>
+            {{/showpr}}
+            {{#showplaylist}}
+                <li class="nav-item"><a class="nav-link" href="#playlist" role="tab" aria-selected="false">Playlist</a></li>
+            {{/showplaylist}}
+            {{#showsharedvideos}}
+                <li class="nav-item"><a class="nav-link" href="#shared" role="tab" aria-selected="false">Compartidos</a></li>
+            {{/showsharedvideos}}
         </ul>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="manager" role="tabpanel">
+            <div class="tab-pane fade show active" id="upload" role="tabpanel">
+                {{> tiny_pumukitmedia/modal_upload }}
+            </div>
+            <div class="tab-pane fade" id="manager" role="tabpanel">
                 {{> tiny_pumukitmedia/modal_manager }}
             </div>
+           {{#showpr}}
             <div class="tab-pane fade" id="recorder" role="tabpanel">
                 {{> tiny_pumukitmedia/modal_recorder }}
             </div>
+            {{/showpr}}
+            {{#showplaylist}}
             <div class="tab-pane fade" id="playlist" role="tabpanel">
                 {{> tiny_pumukitmedia/modal_playlist }}
             </div>
+            {{/showplaylist}}
+
+            {{#showsharedvideos}}
             <div class="tab-pane fade" id="shared" role="tabpanel">
                 {{> tiny_pumukitmedia/modal_shared }}
             </div>
+            {{/showsharedvideos}}
         </div>
     {{/body}}
 
