@@ -1,7 +1,7 @@
 PuMuKIT Tiny plugin for Moodle
 ==============================
 
-This plugin allows PuMuKIT (version 4.0 or higher) integration on Tiny editor.
+This plugin allows PuMuKIT (version 5.0 or higher) integration on Tiny editor.
 
 If you want to develop for this plugin see [DEVELOP DOC](https://github.com/teltek/moodle-tiny_pumukitmedia/blob/master/DEVELOPER.md) 
 
