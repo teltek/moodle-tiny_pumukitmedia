@@ -36,3 +36,4 @@ $string['showsharedvideostext'] = 'Show all videos task';
 $string['showsharedvideosdesc'] = 'Enable or deactivate all videos task';
 $string['enabledebugmode'] = 'Debug mode';
 $string['pumukitmedia:view'] = 'Show PuMuKIT tiny plugin';
+$string['back'] = 'Back';

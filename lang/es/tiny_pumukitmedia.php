@@ -36,3 +36,4 @@ $string['showsharedvideostext'] = 'Visualizar la pestaña de todos los vídeos';
 $string['showsharedvideosdesc'] = 'Activar o desactiva la pestaña de todos los vídeos';
 $string['enabledebugmode'] = 'Modo debug';
 $string['pumukitmedia:view'] = 'Visualizar el plugin de PuMuKIT en editor tiny';
+$string['back'] = 'Volver';

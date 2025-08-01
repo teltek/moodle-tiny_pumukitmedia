@@ -12,6 +12,36 @@ import {
     getShowSharedVideos
 } from './options';
 
+let modal = null;
+let receiveMessageAdded = false;
+
+const receiveMessage = (event) => {
+    const data = event.data;
+    if (!data || (!data.mmId && !data.url && !data.playlist)) return;
+
+    const pumukitUrl = getPumukitUrl(modal.editor);
+    let embedUrl = '';
+
+    if (data.url) {
+        embedUrl = data.url;
+    } else if (data.playlist) {
+        embedUrl = `${pumukitUrl}/openedx/openedx/playlist/embed/${data.playlist}`;
+    } else if (data.mmId) {
+        embedUrl = `${pumukitUrl}/openedx/openedx/embed/${data.mmId}`;
+    }
+
+    const embedHtml = `<a href="${embedUrl}" target="_blank" class="pumukit-media-link">${embedUrl}</a>`;
+
+    if (modal && modal.editor) {
+        modal.editor.insertContent(embedHtml);
+        modal.hide();
+        modal = null;
+    }
+
+    window.removeEventListener('message', receiveMessage);
+    receiveMessageAdded = false;
+};
+
 export const openPumukitDialogue = async (editor) => {
     const modaltitle = getDialogTitle(editor);
     const pumukitUrl = getPumukitUrl(editor);
@@ -22,6 +52,7 @@ export const openPumukitDialogue = async (editor) => {
     const showpr = getShowPr(editor);
     const showplaylist = getShowPlaylist(editor);
     const showsharedvideos = getShowSharedVideos(editor);
+    const show_extra_buttons = showpr || showplaylist || showsharedvideos;
 
     const context = {
         modaltitle,
@@ -32,7 +63,8 @@ export const openPumukitDialogue = async (editor) => {
         lang,
         showpr,
         showplaylist,
-        showsharedvideos
+        showsharedvideos,
+        show_extra_buttons
     };
 
     const iframeId = 'pumukitmedia_iframe_sso';
@@ -40,13 +72,14 @@ export const openPumukitDialogue = async (editor) => {
 
     const createModalAndShow = async () => {
         try {
-            const modal = await PumukitModal.create({
+            modal = await PumukitModal.create({
                 templateContext: context,
                 large: true,
             });
 
+            modal.editor = editor; // Se guarda para uso en receiveMessage
             modal.show();
-            setupModalEvents(modal, editor, pumukitUrl);
+            setupModalEvents(modal);
 
         } catch (error) {
             console.error('Error creando la modal de PuMuKIT:', error);
@@ -68,52 +101,57 @@ export const openPumukitDialogue = async (editor) => {
     }
 };
 
-function setupModalEvents(modal, editor, pumukitUrl) {
-    modal.getRoot().on('click', '.nav-tabs .nav-link', function (e) {
-        e.preventDefault();
+function setupModalEvents(modalInstance) {
+    const root = modalInstance.getRoot()[0];
 
-        const root = modal.getRoot()[0];
-        const clickedLink = e.target;
-        const targetId = clickedLink.getAttribute('href');
+    const launcher = root.querySelector('.pumukit-launcher');
+    const tabsContainer = root.querySelector('.pumukit-tabs');
+    const backBtn = root.querySelector('#backToLauncher');
 
-        root.querySelectorAll(".nav-tabs .nav-link").forEach(link => {
-            link.classList.remove("active");
+    if (!launcher || !tabsContainer) {
+        console.warn('No se encontró el contenedor de pestañas o el launcher');
+        return;
+    }
+
+    root.querySelectorAll('.pumukit-launcher .col').forEach(button => {
+        button.addEventListener('click', () => {
+            const tab = button.getAttribute('data-tab');
+
+            launcher.style.display = 'none';
+            tabsContainer.style.display = 'block';
+
+            // Oculta todas las pestañas
+            tabsContainer.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.style.display = 'none';
+            });
+
+            // Muestra solo la seleccionada
+            const target = tabsContainer.querySelector(`#${tab}`);
+            if (target) {
+                target.style.display = 'block';
+            }
         });
-
-        root.querySelectorAll(".tab-pane").forEach(pane => {
-            pane.classList.remove("show", "active");
-        });
-
-        clickedLink.classList.add("active");
-        const targetPane = root.querySelector(targetId);
-        if (targetPane) {
-            targetPane.classList.add("show", "active");
-        }
     });
 
-    const receiveMessage = (event) => {
-        const data = event.data;
-        if (!data || (!data.mmId && !data.url && !data.playlist)) return;
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            tabsContainer.style.display = 'none';
+            launcher.style.display = 'block';
+        });
+    }
 
-        let embedUrl = '';
-        if (data.url) {
-            embedUrl = data.url;
-        } else if (data.playlist) {
-            embedUrl = `${pumukitUrl}/openedx/openedx/playlist/embed/${data.playlist}`;
-        } else if (data.mmId) {
-            embedUrl = `${pumukitUrl}/openedx/openedx/embed/${data.mmId}`;
+    // Escucha los mensajes postMessage (para incrustar el media)
+    if (!receiveMessageAdded) {
+        window.addEventListener('message', receiveMessage);
+        receiveMessageAdded = true;
+    }
+
+    // Limpieza al cerrar la modal
+    modalInstance.getRoot().on('hidden.bs.modal', () => {
+        if (receiveMessageAdded) {
+            window.removeEventListener('message', receiveMessage);
+            receiveMessageAdded = false;
         }
-
-        const embedHtml = `<a href="${embedUrl}" target="_blank" class="pumukit-media-link">${embedUrl}</a>`;
-
-        editor.insertContent(embedHtml);
-        modal.hide();
-        window.removeEventListener('message', receiveMessage);
-    };
-
-    window.addEventListener('message', receiveMessage);
-
-    modal.getRoot().on('hidden.bs.modal', () => {
-        window.removeEventListener('message', receiveMessage);
+        modal = null;
     });
 }
