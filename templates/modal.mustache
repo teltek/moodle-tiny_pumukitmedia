@@ -27,29 +27,29 @@
 
     {{$body}}
         <div class="icon-grid pumukit-launcher text-center">
-            <div class="icon-row">
+            <div class="icon-row top">
                 <div class="col" data-tab="upload">
                     <div class="icon-button">
                         <i class="fas fa-upload fa-2x"></i>
-                        <div>{{#str}}button_upload, tiny_pumukitmedia{{/str}}</div>
+                        <div class="tabName">{{#str}}button_upload, tiny_pumukitmedia{{/str}}</div>
                     </div>
                 </div>
                 <div class="col" data-tab="manager">
                     <div class="icon-button">
                         <i class="fas fa-folder-open fa-2x"></i>
-                        <div>{{#str}}button_myvideos, tiny_pumukitmedia{{/str}}</div>
+                        <div class="tabName">{{#str}}button_myvideos, tiny_pumukitmedia{{/str}}</div>
                     </div>
                 </div>
             </div>
             {{#show_extra_buttons}}
-            <div class="icon-row">
+            <div class="icon-row bottom">
             {{/show_extra_buttons}}
 
                 {{#showpr}}
                 <div class="col" data-tab="recorder">
                     <div class="icon-button">
                         <i class="fas fa-video fa-2x"></i>
-                        <div>{{#str}}button_pr, tiny_pumukitmedia{{/str}}</div>
+                        <div class="tabName">{{#str}}button_pr, tiny_pumukitmedia{{/str}}</div>
                     </div>
                 </div>
                 {{/showpr}}
@@ -57,7 +57,7 @@
                 <div class="col" data-tab="playlist">
                     <div class="icon-button">
                         <i class="fas fa-list fa-2x"></i>
-                        <div>{{#str}}button_playlists, tiny_pumukitmedia{{/str}}</div>
+                        <div class="tabName">{{#str}}button_playlists, tiny_pumukitmedia{{/str}}</div>
                     </div>
                 </div>
                 {{/showplaylist}}
@@ -65,7 +65,7 @@
                 <div class="col" data-tab="shared">
                     <div class="icon-button">
                         <i class="fas fa-share-alt fa-2x"></i>
-                        <div>{{#str}}button_sharevideos, tiny_pumukitmedia{{/str}}</div>
+                        <div class="tabName">{{#str}}button_sharevideos, tiny_pumukitmedia{{/str}}</div>
                     </div>
                 </div>
                 {{/showsharedvideos}}
@@ -77,6 +77,9 @@
 
         <div class="pumukit-tabs" style="display:none;">
             <button class="btn btn-sm btn-secondary mb-2" id="backToLauncher"><i class="fa fa-arrow-left"></i>&nbsp;{{#str}}back, tiny_pumukitmedia{{/str}}</button>
+            <span id="currentTabInfo" class="ml-2 d-none align-middle">
+                <span id="currentTabName"></span> <i class="fa fa-circle fa-sm"></i>
+            </span>
             <div class="tab-content">
                 <div class="tab-pane" id="upload">
                     {{> tiny_pumukitmedia/modal_upload }}

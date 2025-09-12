@@ -116,6 +116,8 @@ function setupModalEvents(modalInstance) {
     root.querySelectorAll('.pumukit-launcher .col').forEach(button => {
         button.addEventListener('click', () => {
             const tab = button.getAttribute('data-tab');
+            const tabName = button.querySelector('.tabName').innerText;
+            const tabIcon = button.querySelector('i').className;
 
             launcher.style.display = 'none';
             tabsContainer.style.display = 'block';
@@ -130,6 +132,17 @@ function setupModalEvents(modalInstance) {
             if (target) {
                 target.style.display = 'block';
             }
+
+            const info = root.querySelector('#currentTabInfo');
+            const infoName = root.querySelector('#currentTabName');
+            const infoIcon = info.querySelector('i');
+
+            infoIcon.className = tabIcon;
+            infoName.innerText = tabName;
+            info.className = "ml-2 align-middle"; 
+            info.classList.add(`tab-${tab}`);
+            
+            info.classList.remove('d-none');
         });
     });
 
@@ -137,6 +150,10 @@ function setupModalEvents(modalInstance) {
         backBtn.addEventListener('click', () => {
             tabsContainer.style.display = 'none';
             launcher.style.display = 'block';
+
+            const info = root.querySelector('#currentTabInfo');
+            info.classList.add('d-none');
+            info.className = "ml-2 align-middle d-none";
         });
     }
 
