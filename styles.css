@@ -18,8 +18,12 @@
     transform: scale(1.08);
 }
 
+.pumukit-launcher .icon-button:hover i {
+    background-color: #333;
+}
+
 .pumukit-launcher .icon-button i {
-    background-color: #4CAF50;
+    background-color: #cb0017;
     color: white;
     border-radius: 50%;
     padding: 20px;
@@ -38,28 +42,11 @@
     color: #333;
 }
 
-.pumukit-launcher [data-tab="upload"] i, #currentTabInfo.tab-upload i {
-    background-color: #4CAF50;
-}
-
-.pumukit-launcher [data-tab="manager"] i, #currentTabInfo.tab-manager i {
-    background-color: #2196F3;
-}
-
-.pumukit-launcher [data-tab="recorder"] i, #currentTabInfo.tab-recorder i {
-    background-color: #e43232;
-}
-
-.pumukit-launcher [data-tab="playlist"] i, #currentTabInfo.tab-playlist i {
-    background-color: #9C27B0;
-}
-
-.pumukit-launcher [data-tab="shared"] i, #currentTabInfo.tab-shared i {
-    background-color: #607D8B;
-}
-
 #backToLauncher {
     margin-top: 5px;
+    background-color: #333;
+    color: #FFF;
+    border-color: #333;
 }
 
 #currentTabInfo {
@@ -72,6 +59,7 @@
 }
 
 #currentTabInfo i {
+    background-color: #cb0017;
     color: white;
     border-radius: 50%;
     padding: 9px;
@@ -80,6 +68,12 @@
     width: 40px;
     height: 40px;
     margin-left: 10px;
+}
+
+.modal-footer button {
+    background-color: #333;
+    color: #FFF;
+    border-color: #333;
 }
 
 @media (max-width: 768px) {
