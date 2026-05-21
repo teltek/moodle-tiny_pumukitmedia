@@ -17,6 +17,8 @@ export default class PumukitModal extends Modal {
         this.setRemoveOnClose(true);
         super.registerEventListeners();
         this.registerCloseOnCancel();
+
+        this.getRoot().find('.modal-dialog').addClass('tiny_pumukitmedia-modal');
     }
 }
 
