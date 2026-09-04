@@ -1,3 +1,4 @@
+import {get_string as getString} from 'core/str';
 import {getTinyMCE} from 'editor_tiny/loader';
 import {getPluginMetadata} from 'editor_tiny/utils';
 import {openPumukitDialogue} from 'tiny_pumukitmedia/dialogue';
@@ -16,9 +17,10 @@ import {
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 export default new Promise(async (resolve) => {
-    const [tinymce, pluginMetadata] = await Promise.all([
+    const [tinymce, pluginMetadata, menuText] = await Promise.all([
         getTinyMCE(),
-        getPluginMetadata(component, pluginName)
+        getPluginMetadata(component, pluginName),
+        getString('menutext', component)
     ]);
 
     tinymce.PluginManager.add(`${component}/plugin`, (editor) => {
@@ -41,7 +43,7 @@ export default new Promise(async (resolve) => {
         });
 
         editor.ui.registry.addMenuItem(pluginButtonName, {
-            text: 'Pumukit Media',
+            text: menuText,
             icon: 'pumukit',
             classes: 'pumukitmedia-button',
             onAction: () => {
