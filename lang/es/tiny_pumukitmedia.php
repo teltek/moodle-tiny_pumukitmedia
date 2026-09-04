@@ -11,6 +11,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'PuMuKIT Media (Tiny)';
+$string['menutext'] = 'Pumukit Media';
 $string['settings'] = 'PuMuKIT Media (Tiny)';
 $string['dialogtitle'] = 'Título del diálogo de la modal';
 $string['dialogtitledesc'] = 'Título del diálogo de la modal';
