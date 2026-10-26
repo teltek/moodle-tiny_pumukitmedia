@@ -68,7 +68,6 @@ class plugininfo extends plugin implements plugin_with_configuration {
         return [
             'pumukitmediaurl' => $pumukiturl,
             'dialogtitle' => get_config('tiny_pumukitmedia', 'dialogtitle'),
-            'password' => $password,
             'hash' => $hash,
             'username' => $USER->username,
             'email' => $USER->email,
